@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Mods Starter Kit — 10 mods listos para Claude Code</title>
+<meta name="description" content="Guía en español del Claude Mods Starter Kit: diez mods para Claude Code (mascota en la terminal, medidor de contexto, mapa de calor, línea de tiempo, enrutador de modelo y más), cómo instalarlos, probarlos, apagarlos y crear el tuyo.">
+<link rel="alternate" hreflang="pt-BR" href="https://inematds.github.io/claude-mods-starter-kit/guia/">
+<link rel="alternate" hreflang="en" href="https://inematds.github.io/claude-mods-starter-kit/guia/en/">
+<link rel="alternate" hreflang="es" href="https://inematds.github.io/claude-mods-starter-kit/guia/es/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
+    --txt:#e9e9ee; --mut:#9a9aa6; --amb:#E2A23B; --amb2:#f0c070; --sky:#38bdf8; --pro:#cbd5e1;
+    color-scheme:dark;
+  }
+  body.light{
+    --bg:#f6f7f9; --bg2:#eceef2; --card:#ffffff; --line:#e1e3ea;
+    --txt:#1a1a22; --mut:#5b5b68; --amb:#b9791d; --amb2:#a16207; --sky:#0369a1; --pro:#b45309;
+    color-scheme:light;
+  }
+  body.light .hero .glow{opacity:.5}
+  body.light pre{background:#0e0e14;color:#d6d6e0}
+  body.light pre .c{color:#8a8a98}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Sora,sans-serif;line-height:1.15;margin:0}
+  a{color:var(--amb);text-decoration:none}
+  code,pre{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+  .mut{color:var(--mut)} .amb{color:var(--amb)}
+  .chip{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);font-weight:600;font-family:Sora}
+  nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);background:rgba(12,12,16,.78);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+  nav .brand{display:flex;align-items:center;gap:8px;font-family:Sora;font-weight:800;letter-spacing:-.02em;color:var(--amb)}
+  nav .brand .emoji{font-size:1.25rem}
+  nav .sep{color:var(--mut);opacity:.45}
+  nav .inema{color:var(--sky);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .inema:hover{filter:brightness(1.15)}
+  nav .pro{color:var(--pro);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .pro:hover{filter:brightness(1.15)}
+  nav .clubpro{display:inline-flex;align-items:center;gap:6px}
+  nav .links{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:.92rem}
+  nav .links a.sec{color:var(--mut)} nav .links a.sec:hover{color:var(--txt)}
+  .lang{display:inline-flex;gap:2px;font-family:Sora;font-size:.78rem}
+  .lang a{color:var(--mut);padding:.2em .45em;border-radius:6px} .lang a.on{color:var(--amb);background:rgba(226,162,59,.12)}
+  .tgl{background:var(--bg2);border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem}
+  .tgl:hover{border-color:var(--amb)}
+  .btn{display:inline-block;background:var(--amb);color:#1a1206;font-weight:600;padding:.6em 1.05em;border-radius:10px;font-family:Sora}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  @media(max-width:760px){nav .links a.sec{display:none}}
+  @media(max-width:520px){nav .wrap{gap:8px;padding:8px 14px;height:auto;flex-wrap:wrap} nav .links{gap:8px;margin-left:0;width:100%;justify-content:space-between} nav .btn{padding:.45em .7em;font-size:.82rem} .tgl{width:34px;height:34px}}
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero .glow{position:absolute;inset:-40% -20% auto auto;width:70%;height:600px;background:radial-gradient(closest-side,rgba(226,162,59,.22),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:74px 22px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.025em}
+  .hero p.lead{font-size:1.18rem;color:var(--mut);margin:1.1em 0 1.6em;max-width:34ch}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000}
+  .hero figure img{width:100%;display:block}
+  @media(max-width:780px){.hero .wrap{grid-template-columns:1fr;padding:48px 22px}}
+  section{padding:62px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+  section .sub{color:var(--mut);margin:.6em 0 2em;max-width:62ch}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:820px){.g3,.g4{grid-template-columns:1fr 1fr}}
+  @media(max-width:540px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card h3{font-size:1.05rem;margin-bottom:.4em}
+  .card p{color:var(--mut);font-size:.92rem;margin:0}
+  .num{display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:8px;background:rgba(226,162,59,.14);color:var(--amb);font-family:Sora;font-weight:800;font-size:.9rem;margin-bottom:.7em}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .flow span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:.45em .9em;font-size:.85rem;font-family:Sora;font-weight:600}
+  .flow .arr{color:var(--amb);border:none;background:none;padding:0 .1em}
+  pre{background:#0a0a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.6;color:#d6d6e0}
+  pre .c{color:#6f6f7c} pre .k{color:var(--amb2)} pre .s{color:#9ece6a}
+  .step{display:grid;grid-template-columns:46px minmax(0,1fr);gap:16px;margin-bottom:26px}
+  .step>div,.card{min-width:0}
+  p code,li code,td code{overflow-wrap:anywhere}
+  .step .b{width:46px;height:46px;border-radius:12px;background:var(--amb);color:#1a1206;font-family:Sora;font-weight:800;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+  .step h3{font-size:1.12rem;margin-bottom:.3em}
+  .step p{color:var(--mut);margin:.2em 0 .7em}
+  .ex{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:680px){.ex{grid-template-columns:1fr}}
+  .ex figure{margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+  .ex figure img{width:100%;display:block}
+  .ex figcaption{padding:12px 14px;font-size:.88rem;color:var(--mut);background:var(--card)}
+  .phase{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .phase:last-child{border:none}
+  .phase .tag{flex:0 0 92px;font-family:Sora;font-weight:800;color:var(--amb)}
+  .phase .d strong{display:block;margin-bottom:.2em}
+  .phase .d span{color:var(--mut);font-size:.92rem}
+  footer{padding:46px 0;text-align:center;color:var(--mut);font-size:.9rem}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:0 4px}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="emoji">🧩</span> Claude Mods</a>
+  <span class="sep">|</span>
+  <span class="clubpro">
+    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
+    <span class="sep">-</span>
+    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
+  </span>
+  <div class="links">
+    <a class="sec" href="#oque">Qué es</a>
+    <a class="sec" href="#mods">Los 10 mods</a>
+    <a class="sec" href="#guia">Guía de uso</a>
+    <a class="sec" href="#criar">Crea el tuyo</a>
+    <a class="sec" href="#limites">Límites</a>
+    <span class="lang"><a href="../">PT</a><a href="../en/">EN</a><a class="on" href="./">ES</a></span>
+    <button class="tgl" id="themeToggle" aria-label="Cambiar tema" title="Cambiar tema">🌙</button>
+    <a class="btn" href="https://github.com/inematds/claude-mods-starter-kit" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="chip">Claude Code · kit de mods</span>
+      <h1>Haz que Claude Code tenga <span class="amb">tu estilo</span></h1>
+      <p class="lead">Diez mods listos, con código fuente, pruebas y un prompt completo para que construyas el tuyo. Una mascota en la terminal, medidor de contexto, mapa de calor de archivos, línea de tiempo y más.</p>
+      <div class="cta">
+        <a class="btn" href="#guia">Empezar la guía</a>
+        <a class="btn ghost" href="https://github.com/inematds/claude-mods-starter-kit" target="_blank" rel="noopener">Ver en GitHub</a>
+      </div>
+    </div>
+    <figure><img src="../assets/banner-es.jpg" alt="Claude Mods: 10 mods listos para Claude Code"></figure>
+  </div>
+</header>
+
+<section id="oque"><div class="wrap">
+  <span class="chip">Qué es</span>
+  <h2>Un mod es el cambio. El plugin es el paquete que lo lleva a Claude Code.</h2>
+  <p class="sub">El <strong>Claude Mods Starter Kit</strong> es un proyecto comunitario de <a href="https://promptadvisers.com" target="_blank" rel="noopener">Prompt Advisers</a> (licencia MIT), reflejado aquí en INEMA. Trae diez plugins de verdad, un marketplace para instalarlos, scripts de prueba y un proyecto de demostración ficticio para que experimentes sin tocar tu trabajo.</p>
+  <figure style="margin:0 0 26px;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000"><img src="../assets/banner-grade-es.jpg" alt="Los mods del kit: Terminal Pet, Context Meter, Repo Heatmap, Flight Recorder, Model Router, Auto Handoff" loading="lazy" style="width:100%;display:block"></figure>
+  <div class="grid g3">
+    <div class="card"><h3>🧩 Diez mods funcionando</h3><p>Código fuente, manifiestos y pruebas de cada plugin. 124 pruebas unitarias pasando en la versión 1.0.0 (Claude Code 2.1.287).</p></div>
+    <div class="card"><h3>📝 Diez prompts completos</h3><p>En la carpeta <code>prompts/</code>, una especificación por mod: comportamiento, controles, casos de falla y criterios de aceptación. Pégala en Claude Code y él lo construye.</p></div>
+    <div class="card"><h3>🧪 Prueba sin compromiso</h3><p><code>scripts/try.sh</code> crea una carpeta temporal con el proyecto de demostración y abre Claude Code solo con el mod elegido. Tu configuración no cambia.</p></div>
+  </div>
+</div></section>
+
+<section id="fluxo"><div class="wrap">
+  <span class="chip">Cómo funciona</span>
+  <h2>Evento → mod → resultado en pantalla</h2>
+  <p class="sub">Claude Code avisa que algo ocurrió (leyó un archivo, terminó una herramienta, midió el contexto, dibujó la pantalla). El código del mod maneja ese evento y cambia lo que ves o el flujo de trabajo. La mascota no necesita una respuesta nueva de la IA en cada cuadro: es código que reacciona a eventos.</p>
+  <div class="flow">
+    <span>Algo ocurre</span><span class="arr">→</span>
+    <span>Claude Code envía un evento</span><span class="arr">→</span>
+    <span>El mod maneja el evento</span><span class="arr">→</span>
+    <span>Cambia un panel, un contador o un archivo</span><span class="arr">→</span>
+    <span>El trabajo sigue normal</span>
+  </div>
+  <p class="sub" style="margin-top:1.4em">Algunos mods solo dibujan información. Otros escriben archivos (Auto Handoff, Bookmarks) o cambian qué modelo se ejecuta (Model Router). La guía de cada uno dice cuál es cuál.</p>
+</div></section>
+
+<section id="mods"><div class="wrap">
+  <span class="chip">Los 10 mods</span>
+  <h2>Elige el cambio que quieres</h2>
+  <p class="sub">Cada mod tiene su propia guía en <code>guides/</code> (en inglés) con instalación, controles, prompt de demostración, cómo apagarlo y límites. Los comandos de abajo se escriben <strong>dentro</strong> de Claude Code, uno a la vez.</p>
+  <div class="grid g2">
+    <div class="card"><h3>🦀 Terminal Pet</h3><p>Un cangrejo pixel-art sobre el prompt que reacciona cuando Claude lee, escribe, espera, termina o falla.</p><pre><span class="k">/pet on</span>   <span class="k">/pet party</span>   <span class="k">/pet name Pixel</span>   <span class="k">/pet off</span></pre></div>
+    <div class="card"><h3>🎨 Coral Skin</h3><p>Tema coral, tinta y crema en los mensajes y herramientas, con colores según el tipo de acción (lectura, edición, comando).</p><pre><span class="k">/skin on</span>   <span class="k">/skin risk</span>   <span class="k">/skin off</span></pre></div>
+    <div class="card"><h3>⛽ Context Meter</h3><p>Muestra qué tan llena está la conversación, el costo de la sesión y los límites de uso disponibles, sobre el prompt.</p><pre><span class="c"># automático, sin comando</span></pre></div>
+    <div class="card"><h3>🗺️ Repo Heatmap</h3><p>Mapa de los archivos del proyecto que se enciende a medida que Claude lee, busca y edita.</p><pre><span class="k">/heatmap open</span>   <span class="k">/heatmap size lines</span>   <span class="k">/heatmap reset</span>   <span class="k">/heatmap close</span></pre></div>
+    <div class="card"><h3>📈 Flight Recorder</h3><p>Línea de tiempo (Gantt) de los turnos, llamadas a herramientas y subagentes, con tokens y costo estimado por tramo.</p><pre><span class="k">/timeline open</span>   <span class="k">/timeline turns 5</span>   <span class="k">/timeline clear</span>   <span class="k">/timeline close</span></pre></div>
+    <div class="card"><h3>🔀 Model Router</h3><p>Envía el trabajo de los subagentes a Sonnet (o Haiku) mientras la conversación principal sigue en su modelo.</p><pre><span class="k">/router on</span>   <span class="k">/router mode subagents</span>   <span class="k">/router sonnet</span>   <span class="k">/router off</span></pre></div>
+    <div class="card"><h3>🗂️ Output Tray</h3><p>Panel con los archivos creados en la sesión: copiar la ruta, abrir y mostrar en el Finder (abrir/mostrar solo en macOS).</p><pre><span class="k">/tray show</span>   <span class="k">/tray list</span>   <span class="k">/tray copy 1</span>   <span class="k">/tray close</span></pre></div>
+    <div class="card"><h3>🧾 Changes Receipt</h3><p>Recibo de lo que se creó, editó y borró en un turno, separando lo que salió bien de los intentos que fallaron.</p><pre><span class="k">/receipt on</span>   <span class="k">/receipt last</span>   <span class="k">/receipt open</span>   <span class="k">/receipt off</span></pre></div>
+    <div class="card"><h3>🔖 Session Bookmarks</h3><p>Guarda un título y una nota junto con el proyecto y la sesión, para que encuentres la conversación de nuevo y la retomes.</p><pre><span class="k">/bm save Login walkthrough</span>   <span class="k">/bm list</span>   <span class="k">/bm find login</span>   <span class="k">/bm resume 1</span></pre></div>
+    <div class="card"><h3>🤝 Auto Handoff</h3><p>Guarda en el proyecto un resumen del progreso, las decisiones y los próximos pasos (por defecto: al llegar al 85% del contexto) para que la próxima conversación continúe.</p><pre><span class="k">/autohandoff now</span>   <span class="k">/autohandoff threshold 85</span>   <span class="k">/autohandoff resume</span>   <span class="k">/autohandoff off</span></pre></div>
+  </div>
+</div></section>
+
+<section id="pre"><div class="wrap">
+  <span class="chip">Requisitos previos</span>
+  <h2>Qué debe estar instalado</h2>
+  <p class="sub">Son mods para <strong>Claude Code</strong> (CLI o área Code de la app de escritorio), no para el chat común de Claude ni una extensión de navegador. Los scripts usan Bash y Python 3. En Windows, usa WSL.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Claude Code con sesión iniciada</h3><p>Con soporte para plugins y un plan o cuenta de API compatible.</p><pre><span class="k">claude</span> --version</pre></div>
+    <div class="card"><h3>Git</h3><p>Necesario para instalar desde el marketplace.</p><pre><span class="k">git</span> --version</pre></div>
+    <div class="card"><h3>Python 3 + Bash</h3><p>Para los scripts <code>try.sh</code>, <code>manage.sh</code> y <code>check.sh</code>.</p><pre><span class="k">python3</span> --version</pre></div>
+  </div>
+</div></section>
+
+<section id="guia"><div class="wrap">
+  <span class="chip">Guía de uso · paso a paso</span>
+  <h2>De la primera mascota al kit completo</h2>
+  <p class="sub">Empieza por Terminal Pet, que solo dibuja en pantalla. Después agrega lo que tenga sentido. Router y Handoff cambian el comportamiento: elígelos con calma.</p>
+
+  <div class="step"><div class="b">1</div><div>
+    <h3>Descarga el kit</h3>
+    <p>Clona el repositorio. Para leer todo sin instalar nada, abre el <code>VIEWER-GUIDE.html</code> en el navegador o el PDF <code>CLAUDE-MODS-VIEWER-GUIDE.pdf</code>.</p>
+<pre><span class="k">git clone</span> <span class="s">https://github.com/inematds/claude-mods-starter-kit</span>
+<span class="k">cd</span> claude-mods-starter-kit</pre>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
+    <h3>Prueba un mod sin instalar</h3>
+    <p>El script copia el proyecto de demostración a una carpeta temporal nueva y abre Claude Code allí, solo con el mod pedido. Tu configuración de plugins no cambia.</p>
+<pre><span class="k">bash</span> scripts/try.sh terminal-pet
+<span class="c"># dentro de Claude Code:</span>
+<span class="k">/pet party</span>   <span class="c"># la mascota celebra</span>
+<span class="k">/pet off</span>     <span class="c"># la oculta</span>
+<span class="k">/exit</span>        <span class="c"># sale de la sesión temporal</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">3</div><div>
+    <h3>Instálalo para todos tus proyectos</h3>
+    <p>Agrega el marketplace (el original de Prompt Advisers, o el espejo <code>inematds/claude-mods-starter-kit</code>) e instala el mod. Después abre una sesión nueva de Claude Code.</p>
+<pre><span class="k">claude plugin marketplace add</span> promptadvisers/claude-mods-starter-kit --scope user
+<span class="k">claude plugin install</span> terminal-pet@claude-mods-kit --scope user</pre>
+  </div></div>
+
+  <div class="step"><div class="b">4</div><div>
+    <h3>O solo en un proyecto</h3>
+    <p>Ejecútalo en la carpeta del proyecto. <code>--scope project</code> guarda en la configuración del proyecto (puede ir al git de tus compañeros); <code>--scope local</code> queda solo para ti. Elige un alcance, no todos.</p>
+<pre><span class="k">claude plugin marketplace add</span> promptadvisers/claude-mods-starter-kit --scope project
+<span class="k">claude plugin install</span> terminal-pet@claude-mods-kit --scope project</pre>
+  </div></div>
+
+  <div class="step"><div class="b">5</div><div>
+    <h3>Instala varios (o los diez)</h3>
+    <p>Desde la raíz del kit descargado, después de agregar el marketplace. <code>all</code> instala los diez, incluidos Router y Handoff. Abre un panel lateral a la vez.</p>
+<pre><span class="k">bash</span> scripts/manage.sh install user all
+<span class="k">bash</span> scripts/manage.sh install user repo-heatmap</pre>
+  </div></div>
+
+  <div class="step"><div class="b">6</div><div>
+    <h3>Pruébalo en el proyecto de demostración</h3>
+    <p>El <code>demo-project/</code> es una tienda ficticia con flujo de inicio de sesión. Abre el heatmap y pide una investigación: los archivos se encienden mientras Claude trabaja.</p>
+<pre><span class="k">/heatmap open</span>
+<span class="s">Investiga el flujo de inicio de sesión, desde src/ui/LoginForm.tsx hasta src/auth/login.ts,
+session.ts y tokens.ts. Lee los archivos y explica cómo entra el usuario. No edites nada.</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">7</div><div>
+    <h3>Apágalo cuando quieras</h3>
+    <p>Desactiva solo los plugins de este kit en el alcance indicado. Para un solo mod, usa <code>claude plugin disable</code>. Cierra las sesiones antiguas después.</p>
+<pre><span class="k">bash</span> scripts/manage.sh disable user all
+<span class="k">claude plugin disable</span> terminal-pet@claude-mods-kit --scope user</pre>
+  </div></div>
+</div></section>
+
+<section id="criar"><div class="wrap">
+  <span class="chip">Crea el tuyo</span>
+  <h2>De una idea en español a un mod probado</h2>
+  <p class="sub">Dile a Claude cinco cosas: qué evento observar, qué resultado mostrar, dónde aparece, cómo apagarlo y cómo probarlo. "Hazlo bonito" no define un comportamiento confiable.</p>
+  <div class="grid g3">
+    <div class="card"><div class="num">1</div><h3>Usa un prompt listo</h3><p>Abre un archivo de <code>prompts/</code>, copia la especificación completa y pídele a Claude Code que la construya en una carpeta nueva. Ajusta colores y estilo.</p></div>
+    <div class="card"><div class="num">2</div><h3>Parte del modelo mínimo</h3><p><code>templates/starter-mod</code> cuenta las lecturas exitosas y muestra el número. Renombra manifiesto, estado y comando antes de convertirlo en otro plugin.</p></div>
+    <div class="card"><div class="num">3</div><h3>Valida antes de compartir</h3><p>Prueba en una carpeta desechable con <code>--plugin-dir</code>, pide una prueba de falla y un botón para apagar. Quita configuraciones, transcripciones y rutas personales.</p></div>
+  </div>
+<pre style="margin-top:22px"><span class="c"># estructura típica de un plugin</span>
+my-plugin/
+  .claude-plugin/plugin.json   <span class="c"># nombre y versión</span>
+  hooks/hooks.json             <span class="c"># qué módulo cargar</span>
+  hooks/starter.mjs            <span class="c"># quien maneja los eventos</span>
+  tests/starter.test.ts        <span class="c"># pruebas de comportamiento</span>
+
+<span class="c"># valida el kit completo</span>
+<span class="k">bash</span> scripts/check.sh</pre>
+</div></section>
+
+<section id="limites"><div class="wrap">
+  <span class="chip">Límites honestos</span>
+  <h2>Lo que el kit no promete</h2>
+  <p class="sub">Versión 1.0.0, verificada con Claude Code 2.1.287 en macOS el 2 de octubre de 2026. Las APIs del host y la disponibilidad de modelos pueden cambiar.</p>
+  <div class="phase"><div class="tag">Pruebas</div><div class="d"><strong>124 pruebas unitarias, sin certificación de extremo a extremo</strong><span>Las pruebas simulan terminal y escritorio. No hubo sesión de escritorio en vivo con los diez mods, ni prueba en vivo en Windows o Linux.</span></div></div>
+  <div class="phase"><div class="tag">Costo</div><div class="d"><strong>Los valores son estimaciones</strong><span>Los dólares de Context Meter y Flight Recorder son equivalentes de API, no un cobro de tu suscripción.</span></div></div>
+  <div class="phase"><div class="tag">Router</div><div class="d"><strong>Cambia qué modelo trabaja</strong><span>Un subagente en un modelo más barato puede responder distinto. Un modelo desconocido en la tabla de precios no se enruta. Revisa el resultado.</span></div></div>
+  <div class="phase"><div class="tag">Handoff</div><div class="d"><strong>Escribe archivos y hace una llamada extra al modelo</strong><span>El resumen puede perder detalles. Los archivos quedan en el proyecto después de apagarlo: revísalos antes de compartir.</span></div></div>
+  <div class="phase"><div class="tag">Tray</div><div class="d"><strong>Abrir/Mostrar solo en macOS</strong><span>La lista funciona en cualquier sistema, pero los botones Open y Reveal usan el Finder.</span></div></div>
+  <div class="phase"><div class="tag">Visual</div><div class="d"><strong>El color y el humor son decoración</strong><span>Los colores de riesgo de Coral Skin y el cangrejo nervioso no bloquean ninguna acción peligrosa.</span></div></div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div class="pill">Claude Code</div><div class="pill">Plugins</div><div class="pill">TypeScript</div><div class="pill">MIT</div>
+    <p style="margin-top:18px">Claude Mods Starter Kit · creado por <a href="https://promptadvisers.com" target="_blank" rel="noopener">Prompt Advisers</a> (<a href="https://github.com/promptadvisers/claude-mods-starter-kit" target="_blank" rel="noopener">repositorio original</a>) · proyecto comunitario, sin vínculo con Anthropic ·
+      <a href="https://github.com/inematds/claude-mods-starter-kit">inematds/claude-mods-starter-kit</a> ·
+      <a href="https://inema.club">INEMA.CLUB</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var KEY='claude-mods-starter-kit-theme';
+    var b=document.body, t=document.getElementById('themeToggle');
+    if(localStorage.getItem(KEY)==='light'){ b.classList.add('light'); t.textContent='☀️'; }
+    t.addEventListener('click',function(){
+      var light=b.classList.toggle('light');
+      t.textContent=light?'☀️':'🌙';
+      localStorage.setItem(KEY, light?'light':'dark');
+    });
+  })();
+</script>
+</body>
+</html>
