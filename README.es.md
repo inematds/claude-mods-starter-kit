@@ -56,6 +56,10 @@ Abre una sesión nueva de Claude Code y escribe `/pet party`. Para ocultarla, `/
 - **templates/starter-mod/**: un mod mínimo para aprender.
 - **guia/**: la guía INEMA en PT, EN y ES.
 
+## ¿No sabes qué mod crear?
+
+El prompt [prompts-extra/find-my-best-claude-mods.es.md](prompts-extra/find-my-best-claude-mods.es.md) hace que Claude Code te entreviste, puntúe los mods según cómo trabajas y te devuelva un top 3 con el primer paso. Incluye 11 prompts listos y uno que audita tus sesiones. Prompt de terceros, compartido como guía gratuita ([original en inglés](prompts-extra/find-my-best-claude-mods.md) · [português](prompts-extra/find-my-best-claude-mods.pt.md)).
+
 ## Varios a la vez, o apagar el kit
 
 ```bash

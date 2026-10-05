@@ -56,6 +56,10 @@ Quer só testar? Na pasta do kit, rode `bash scripts/try.sh terminal-pet`. Ele c
 - **templates/starter-mod/**: um mod mínimo para aprender.
 - **guia/**: o guia INEMA em PT, EN e ES.
 
+## Não sabe qual mod fazer?
+
+O prompt [prompts-extra/find-my-best-claude-mods.pt.md](prompts-extra/find-my-best-claude-mods.pt.md) faz o Claude Code te entrevistar, pontuar os mods para o seu jeito de trabalhar e devolver um top 3 com o primeiro passo. Traz 11 prompts prontos e um que audita suas sessões. Prompt de terceiros, divulgado como guia gratuito ([original em inglês](prompts-extra/find-my-best-claude-mods.md) · [español](prompts-extra/find-my-best-claude-mods.es.md)).
+
 ## Vários de uma vez, ou desligar o kit
 
 ```bash

@@ -61,6 +61,10 @@ Claude Code reports an event. The mod handles it. Your screen or workflow change
 ## Compatibility and honest limits
 Release 1.0.0, checked with Claude Code 2.1.287 on macOS, October 2, 2026. These are community mods for Claude Code, not ordinary Claude web chat. Host APIs and model availability can change. Unit tests include simulated terminal/desktop surfaces; they are not an end-to-end desktop certification. Output Tray's Open/Reveal uses macOS. A helper routed to a cheaper model can give a different answer. Cost figures are estimates, not subscription charges. See [verification](VERIFICATION.md).
 
+## Not sure which mod to build?
+
+The prompt [prompts-extra/find-my-best-claude-mods.md](prompts-extra/find-my-best-claude-mods.md) makes Claude Code interview you, score the mods for how you work and return a top 3 with a first step. It includes 11 ready prompts and one that audits your sessions. Third-party prompt shared as a free guide ([português](prompts-extra/find-my-best-claude-mods.pt.md) · [español](prompts-extra/find-my-best-claude-mods.es.md)).
+
 ## Add several, or turn the kit off
 After adding the marketplace, from the downloaded kit root:
 ```bash

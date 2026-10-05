@@ -260,6 +260,7 @@ session.ts e tokens.ts. Leia os arquivos e explique como o usuário entra. Não 
     <div class="card"><div class="num">2</div><h3>Parta do modelo mínimo</h3><p><code>templates/starter-mod</code> conta leituras bem-sucedidas e mostra o número. Renomeie manifesto, estado e comando antes de virar outro plugin.</p></div>
     <div class="card"><div class="num">3</div><h3>Valide antes de compartilhar</h3><p>Teste numa pasta descartável com <code>--plugin-dir</code>, peça um teste de falha e um botão de desligar. Tire configurações, transcrições e caminhos pessoais.</p></div>
   </div>
+<div class="card" style="margin-top:22px;border-color:var(--amb)"><h3>🧭 Não sabe qual mod fazer? Deixe o Claude te entrevistar</h3><p>Cole este prompt no Claude Code: ele pergunta, uma questão por vez, como você trabalha, pontua cada mod (dor, ganho, facilidade, segurança) e devolve seu top 3 com o primeiro passo. Traz também 11 prompts prontos (Token Weather, Blast Radius, Next Steps, Pulse…) e um prompt que audita suas sessões e sugere 5 mods.</p><p style="margin-top:12px"><a class="btn" href="https://github.com/inematds/claude-mods-starter-kit/blob/main/prompts-extra/find-my-best-claude-mods.pt.md" target="_blank" rel="noopener">Abrir o prompt (PT)</a></p><p style="margin-top:10px;font-size:.8rem">Prompt de terceiros, divulgado como guia gratuito; links das fontes conferidos em 05/10/2026.</p></div>
 <pre style="margin-top:22px"><span class="c"># estrutura típica de um plugin</span>
 my-plugin/
   .claude-plugin/plugin.json   <span class="c"># nome e versão</span>
